@@ -1,8 +1,11 @@
 use key_value_server_rs::run;
+use std::net::TcpListener;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    // Raise io::Error if address failed to bind
-    // Otherwise call .await on Server
-    run()?.await
+    let bind_address: (&str, u16) = ("127.0.0.1", 8080);
+    // Raises if failed to bind address
+    let listener = TcpListener::bind(bind_address)?;
+    // Run server on TcpListener
+    run(listener)?.await
 }
